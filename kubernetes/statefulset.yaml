@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: custom-app-stateful
+spec:
+  selector:
+    matchLabels:
+      app: custom-app-stateful
+  serviceName: "custom-app-stateful"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: custom-app-stateful
+    spec:
+      containers:
+      - name: app
+        image: busybox
+        command: ["sh", "-c", "while true; do echo StatefulSet pod running; sleep 3600; done"]
+        volumeMounts:
+        - name: data
+          mountPath: /data
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 1Mi

@@ -1,0 +1,3 @@
+log_level: INFO
+port: 5000
+greeting: "Welcome to the custom app"
